@@ -36,7 +36,7 @@
         <!--
         <h1>Conheça o <span style="color: red;font-family: 'hardcover';">Moment's Day</span></h1>
         -->
-        <h2 id="txt" style="font-size: 27px;text-align: justify;">
+        <h2 id="txt" style="font-size: 27px;text-align: left;">
           Já imaginou capturar sua formatura de um jeito único e inesquecível, ao lado de quem você mais ama?
           Esse é o <span style="color: red;">Moment's Day</span>, um evento exclusivo, planejado totalmente para você,
           formando, e sua família — e o melhor: <span style="color: red;">
@@ -148,7 +148,7 @@
         <h1><span style="color: red;">5 - Encerramento e brinde</span></h1>
         <h2>No final, a família visita o setor comercial para conhecer nossos produtos
           incríveis e totalmente personalizáveis, e ainda leva de presente um <span style="color: red;">
-            quadrinho especial e exclusivo.</span>
+            super-brinde exclusivo.</span>
           Um detalhe cheio de afeto e emoção para encerrar o dia em grande estilo,
           guardando pra sempre esse momento tão especial!
           <br><br>
@@ -227,7 +227,7 @@
       <div class="footer-section">
         <h3>Horário de Atendimento</h3>
         <p>Via Whatsapp e Instagram:</p>
-        <p>Segunda a Sexta das 8h30 às 17h30</p>
+        <p>Segunda a Sexta das 8h às 17h</p>
       </div>
     </div>
 
