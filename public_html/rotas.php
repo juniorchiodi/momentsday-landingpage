@@ -11,15 +11,11 @@ switch ($parse_uri) {
         MomentsDayController::form();
         break;
 
-    case "/visitasmomentsday":
+    case "/visitas":
         MomentsDayController::visitas();
         break;
 
-    //case "/login":
-        //MomentsDayController::login();
-       // break;
-
     default:
-        header('Location: /');
-    break;
+        header('location: /');
+        break;
 }

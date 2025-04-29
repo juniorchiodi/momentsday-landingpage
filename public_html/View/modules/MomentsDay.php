@@ -15,32 +15,70 @@
   <?php
   // LINK: /visitasmomentsday
 
-  $arquivo = 'visitas.json';
+  // Define o fuso horário para Brasil/São Paulo
+  date_default_timezone_set('America/Sao_Paulo');
 
-  // Cria o arquivo se não existir
-  if (!file_exists($arquivo)) {
-    file_put_contents($arquivo, json_encode([]));
+  $arquivo = __DIR__ . '/../../visitas.json';
+
+  // Função para validar IP
+  function validarIP($ip) {
+    return filter_var($ip, FILTER_VALIDATE_IP) !== false;
   }
 
-  // Lê o conteúdo do arquivo
-  $dados = json_decode(file_get_contents($arquivo), true);
+  // Função para registrar visita
+  function registrarVisita($arquivo) {
+    try {
+      // Cria o arquivo se não existir
+      if (!file_exists($arquivo)) {
+        if (!file_put_contents($arquivo, json_encode([]))) {
+          throw new Exception("Erro ao criar arquivo de visitas");
+        }
+      }
 
-  // Pega o IP do visitante
-  $ip = $_SERVER['REMOTE_ADDR'];
+      // Lê o conteúdo do arquivo
+      $conteudo = file_get_contents($arquivo);
+      if ($conteudo === false) {
+        throw new Exception("Erro ao ler arquivo de visitas");
+      }
 
-  // Verifica se o IP já está registrado
-  if (!isset($dados[$ip])) {
-    $dados[$ip] = [
-      'visitas' => 1,
-      'primeira_visita' => date('Y-m-d H:i:s')
-    ];
-  } else {
-    // Se já existe, incrementa a contagem
-    $dados[$ip]['visitas'] += 1;
+      $dados = json_decode($conteudo, true);
+      if ($dados === null) {
+        throw new Exception("Erro ao decodificar JSON");
+      }
+
+      // Pega o IP do visitante
+      $ip = $_SERVER['REMOTE_ADDR'];
+      
+      // Valida o IP
+      if (!validarIP($ip)) {
+        throw new Exception("IP inválido");
+      }
+
+      // Verifica se o IP já está registrado
+      if (!isset($dados[$ip])) {
+        $dados[$ip] = [
+          'visitas' => 1,
+          'primeira_visita' => date('Y-m-d H:i:s')
+        ];
+      } else {
+        // Se já existe, incrementa a contagem
+        $dados[$ip]['visitas'] += 1;
+      }
+
+      // Salva novamente no arquivo
+      if (!file_put_contents($arquivo, json_encode($dados, JSON_PRETTY_PRINT))) {
+        throw new Exception("Erro ao salvar dados de visitas");
+      }
+
+      return true;
+    } catch (Exception $e) {
+      error_log("Erro ao registrar visita: " . $e->getMessage());
+      return false;
+    }
   }
 
-  // Salva novamente no arquivo
-  file_put_contents($arquivo, json_encode($dados, JSON_PRETTY_PRINT));
+  // Registra a visita
+  registrarVisita($arquivo);
   ?>
 
 
