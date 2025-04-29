@@ -11,10 +11,40 @@
 </head>
 
 <body>
+
+  <?php
+  // LINK: /visitasmomentsday
+
+  $arquivo = 'visitas.json';
+
+  // Cria o arquivo se não existir
+  if (!file_exists($arquivo)) {
+    file_put_contents($arquivo, json_encode([]));
+  }
+
+  // Lê o conteúdo do arquivo
+  $dados = json_decode(file_get_contents($arquivo), true);
+
+  // Pega o IP do visitante
+  $ip = $_SERVER['REMOTE_ADDR'];
+
+  // Verifica se o IP já está registrado
+  if (!isset($dados[$ip])) {
+    $dados[$ip] = [
+      'visitas' => 1,
+      'primeira_visita' => date('Y-m-d H:i:s')
+    ];
+  } else {
+    // Se já existe, incrementa a contagem
+    $dados[$ip]['visitas'] += 1;
+  }
+
+  // Salva novamente no arquivo
+  file_put_contents($arquivo, json_encode($dados, JSON_PRETTY_PRINT));
+  ?>
+
+
   <?php include './View/navbar.php' ?>
-
-
-
 
   <section class="hero-video">
     <video id="Video" autoplay loop muted>
@@ -98,7 +128,7 @@
         <h2>Brilhe em um ensaio feito totalmente pra você, com um cenário lindo que te destaca ainda mais!
           Aqui, a gente cria um momento especial pra você se sentir à vontade,
           <span style="color:red">arrasar do seu jeito </span>e guardar fotos incríveis que vão te fazer
-           sorrir sempre que olhar.
+          sorrir sempre que olhar.
         </h2>
       </div>
       <div class="foto-vg">
@@ -115,7 +145,8 @@
         <h2>Crie fotos únicas e cheias de emoção com a Beca, eternizando a essência da sua formatura
           <span style="color: red;">ao lado de quem te apoiou em cada passo dessa jornada</span>. Celebre suas conquistas
           com cliques que vão marcar esse momento para sempre,
-          porque cada vitória merece ser lembrada com muito carinho! </h2>
+          porque cada vitória merece ser lembrada com muito carinho!
+        </h2>
       </div>
     </div>
 
@@ -124,7 +155,7 @@
         <h1><span style="color: red;">4 - Depoimento da família</span></h1>
         <h2>Enquanto o formando se diverte em seu ensaio final, dois familiares tem a chance de gravar um vídeo
           cheio de carinho e emoção. É o <span style="color: red;"> momento perfeito para a família expressar o amor
-          por você e o orgulho por essa conquista</span>, criando uma recordação que vai tocar o coração pra sempre! </h2>
+            por você e o orgulho por essa conquista</span>, criando uma recordação que vai tocar o coração pra sempre! </h2>
       </div>
       <div class="foto-vg">
         <img src="/View/assets/midia/4.jpg">
@@ -138,8 +169,9 @@
       <div class="texto-vg">
         <h1><span style="color: red;">EXTRA - Plataforma 360</span></h1>
         <h2>A plataforma 360º rouba a cena! Todos podem se divertir gravando vídeos incríveis em 360 graus,
-        <span style="color: red;">capturando a alegria e a energia de um jeito único</span>.
-          É a oportunidade perfeita para criar recordações animadas que vão fazer você sorrir sempre que assistir! </h2>
+          <span style="color: red;">capturando a alegria e a energia de um jeito único</span>.
+          É a oportunidade perfeita para criar recordações animadas que vão fazer você sorrir sempre que assistir!
+        </h2>
       </div>
     </div>
 
